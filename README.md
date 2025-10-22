@@ -1,6 +1,6 @@
-# E-NGO RAG Application
+# E-NGO RAG Application (FastAPI + Netlify)
 
-A Streamlit-based RAG (Retrieval-Augmented Generation) application for querying NGO standards and regulations using AI.
+A FastAPI-based RAG (Retrieval-Augmented Generation) application for querying NGO standards and regulations using AI, deployed on Netlify with serverless functions.
 
 ## Features
 
@@ -8,21 +8,43 @@ A Streamlit-based RAG (Retrieval-Augmented Generation) application for querying 
 - **Hybrid Retrieval**: Uses both semantic (FAISS) and keyword (BM25) search for better results
 - **Source Attribution**: Shows sources for each answer with confidence scores
 - **Multi-language Support**: Supports questions in multiple languages
-- **Real-time Chat Interface**: Interactive chat interface powered by Streamlit
+- **Real-time Chat Interface**: Interactive chat interface with modern UI
+- **Serverless Deployment**: Deployed on Netlify using serverless functions
 
 ## Technology Stack
 
-- **Frontend**: Streamlit
+- **Backend**: FastAPI with Python serverless functions
+- **Frontend**: HTML, CSS (Tailwind), JavaScript
 - **AI/ML**: OpenAI GPT models, FAISS vector search, BM25 keyword search
-- **Backend**: Python with Pydantic for configuration
+- **Deployment**: Netlify serverless functions
 - **Document Processing**: PyPDF2 for PDF text extraction
 
-## Setup
+## Project Structure
+
+```
+E-NGO-FastAPI/
+├── main.py                    # FastAPI application (for local development)
+├── index.html                 # Frontend HTML interface
+├── netlify.toml              # Netlify configuration
+├── requirements.txt           # Python dependencies
+├── netlify/
+│   └── functions/
+│       ├── ask.py             # Serverless function for Q&A
+│       └── requirements.txt  # Function-specific dependencies
+├── src/
+│   ├── config.py             # Configuration management
+│   ├── rag_pipeline.py       # Main RAG pipeline
+│   └── retriever.py          # Document retrieval logic
+└── data/
+    └── vector_store/         # Pre-built vector indexes (not in repo)
+```
+
+## Local Development
 
 1. **Clone the repository**:
    ```bash
    git clone <your-repo-url>
-   cd E-NGO
+   cd E-NGO-FastAPI
    ```
 
 2. **Install dependencies**:
@@ -36,38 +58,55 @@ A Streamlit-based RAG (Retrieval-Augmented Generation) application for querying 
    OPENAI_API_KEY=your_openai_api_key_here
    ```
 
-4. **Run the application**:
+4. **Run the application locally**:
    ```bash
-   streamlit run app.py
+   python main.py
    ```
 
 5. **Access the app**:
-   Open your browser and go to `http://localhost:8501`
+   Open your browser and go to `http://localhost:8000`
 
-## Project Structure
+## Netlify Deployment
 
-```
-E-NGO/
-├── app.py                 # Main Streamlit application
-├── build_indexes.py       # Script to build vector indexes
-├── extract_text_from_pdf.py # PDF text extraction utility
-├── requirements.txt       # Python dependencies
-├── src/
-│   ├── config.py         # Configuration management
-│   ├── rag_pipeline.py   # Main RAG pipeline
-│   └── retriever.py      # Document retrieval logic
-└── data/
-    └── vector_store/     # Pre-built vector indexes
-        ├── faiss_index_*.bin
-        ├── chunks_metadata_*.pkl
-        └── bm25_index_*.pkl
-```
+### Automatic Deployment
+
+1. **Connect to Netlify**:
+   - Go to [netlify.com](https://netlify.com)
+   - Sign in and click "New site from Git"
+   - Connect your GitHub account
+   - Select this repository
+
+2. **Configure build settings**:
+   - Build command: `echo 'No build needed'`
+   - Publish directory: `.`
+   - Add environment variable: `OPENAI_API_KEY`
+
+3. **Deploy**:
+   - Click "Deploy site"
+   - Your app will be available at `https://your-site-name.netlify.app`
+
+### Manual Deployment
+
+1. **Install Netlify CLI**:
+   ```bash
+   npm install -g netlify-cli
+   ```
+
+2. **Login to Netlify**:
+   ```bash
+   netlify login
+   ```
+
+3. **Deploy**:
+   ```bash
+   netlify deploy --prod
+   ```
 
 ## Usage
 
 1. **Start the app** and wait for the knowledge base to load
 2. **Ask questions** about NGO standards, regulations, or procedures
-3. **View sources** by expanding the "View Sources" section for each answer
+3. **View sources** by checking the source attribution for each answer
 4. **Get detailed information** about specific topics related to NGO operations
 
 ## Example Questions
@@ -76,23 +115,32 @@ E-NGO/
 - "How should I handle grant accounting?"
 - "What are the compliance requirements for NGOs?"
 - "How to manage foreign donor funds?"
+- "What documents are needed for NGO setup?"
 
-## Deployment
+## API Endpoints
 
-This application can be deployed to various platforms:
+- `GET /` - Serves the main HTML interface
+- `POST /.netlify/functions/ask` - Processes Q&A requests
+- `GET /api/health` - Health check endpoint (local only)
 
-- **Streamlit Cloud**: Direct deployment from GitHub
-- **Heroku**: Using the included Procfile
-- **Docker**: Containerized deployment
-- **Netlify**: Static site deployment (with modifications)
+## Environment Variables
+
+- `OPENAI_API_KEY` - Your OpenAI API key (required)
 
 ## Contributing
 
 1. Fork the repository
 2. Create a feature branch
 3. Make your changes
-4. Submit a pull request
+4. Test locally with `python main.py`
+5. Submit a pull request
 
 ## License
 
 This project is licensed under the MIT License.
+
+## Notes
+
+- The vector store files are not included in the repository due to size limitations
+- For production deployment, you may need to rebuild the vector indexes
+- The serverless function has a timeout limit on Netlify (10 seconds for free tier)
