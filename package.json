@@ -1,0 +1,13 @@
+{
+  "name": "e-ngo-static",
+  "version": "1.0.0",
+  "description": "Static demo version of E-NGO RAG Application",
+  "main": "index.html",
+  "scripts": {
+    "build": "echo 'Static site - no build needed'",
+    "start": "echo 'Static site - open index.html'"
+  },
+  "keywords": ["ngo", "rag", "ai", "streamlit", "static"],
+  "author": "Madiyar Moldabayev",
+  "license": "MIT"
+}
