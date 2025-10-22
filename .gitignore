@@ -51,12 +51,15 @@ Thumbs.db
 # Streamlit
 .streamlit/
 
-# Data files (keep vector store but ignore large files)
+# Data files (ignore large files)
 *.pdf
 *.docx
 *.xlsx
 *.csv
-!data/vector_store/*
+
+# Vector store files (too large for GitHub)
+data/vector_store/*.bin
+data/vector_store/*.pkl
 
 # Temporary files
 *.tmp
