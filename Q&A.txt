@@ -1,0 +1,51 @@
+Category 1: Direct Factual Retrieval
+These questions test the model's ability to find and repeat specific facts stated directly in the text.
+
+Question 1:
+
+What is the primary objective of an NPO?
+Expected Answer:
+
+The primary objective of an NPO is to provide a benefit to the public through the services and goods it delivers or the activities it carries out.
+Question 2:
+
+Can an NPO provide private benefits, like financial returns, to its owners?
+Expected Answer:
+
+No, an NPO is not expected to provide private benefits like economic or financial returns to holders of equity. Any such benefits, if they occur, should only be incidental to the NPO's main objective of providing a public benefit.
+Question 3:
+
+How should an NPO use its surpluses?
+Expected Answer:
+
+An NPO should direct its surpluses for the benefit of the public. This can include reinvesting in programs, expanding services, or strengthening its financial stability to enhance future public benefits. Surpluses should generally not be distributed for private benefit.
+Category 2: Information Synthesis & Definition
+These questions require the model to combine information from slightly different parts of the text to form a complete definition or explanation.
+
+Question 4:
+
+The document mentions that an NPO serves "the public." How is "the public" defined in this context?
+Expected Answer:
+
+In this context, "the public" refers to the individuals and groups that directly or indirectly benefit from the NPO’s services and activities. This can be a broad scope, including the general public or members of particular communities, but it can also be a narrow, targeted group.
+Question 5:
+
+What are some examples of entities that could be described as an NPO according to this text?
+Expected Answer:
+
+According to the text, a wide range of entities can be described as NPOs, including charities, non-government organisations, social advocacy groups, co-operatives, mutual benefit organisations, professional associations, and foundations.
+Category 3: "Nuance" and Inference-Based Questions
+These questions test the model's ability to understand slightly more complex or implicit concepts from the text.
+
+Question 6:
+
+Does an NPO have to serve the entire general public, or can its focus be more limited?
+Expected Answer:
+
+An NPO's focus can be limited. The text states that while the scope of benefit can be broad, the focus of an NPO may be narrow, targeting a specific or defined group.
+Question 7:
+
+Is it acceptable for an NPO to generate a surplus from selling goods or services?
+Expected Answer:
+
+Yes, it is acceptable. The document states that an NPO may generate surpluses from activities such as selling services and/or goods, receiving donations, or earning returns from financial assets, as long as these surpluses are directed for the benefit of the public.
