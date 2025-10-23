@@ -39,16 +39,49 @@ exports.handler = async (event, context) => {
       };
     }
 
-    // For now, return a demo response since we need Python for the RAG pipeline
-    // In a real deployment, you'd call your Python RAG service here
-    const demoResponses = [
-      "Based on NGO standards, organizations must maintain proper documentation and follow compliance requirements.",
-      "For grant accounting, NGOs should maintain detailed records of all transactions and ensure transparency.",
-      "Compliance requirements include regular reporting, financial transparency, and adherence to local regulations.",
-      "Foreign donor funds must be properly documented and reported according to international standards."
-    ];
+    // Get OpenAI API key from environment
+    const apiKey = process.env.OPENAI_API_KEY;
+    if (!apiKey) {
+      return {
+        statusCode: 500,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ error: 'OpenAI API key not configured' })
+      };
+    }
 
-    const randomResponse = demoResponses[Math.floor(Math.random() * demoResponses.length)];
+    // Call OpenAI API
+    const openaiResponse = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        model: 'gpt-3.5-turbo',
+        messages: [
+          {
+            role: 'system',
+            content: 'You are an AI assistant specialized in NGO standards, regulations, and best practices. Provide helpful, accurate information about NGO operations, compliance requirements, grant management, and related topics.'
+          },
+          {
+            role: 'user',
+            content: question
+          }
+        ],
+        max_tokens: 500,
+        temperature: 0.7
+      })
+    });
+
+    if (!openaiResponse.ok) {
+      throw new Error(`OpenAI API error: ${openaiResponse.status}`);
+    }
+
+    const openaiData = await openaiResponse.json();
+    const answer = openaiData.choices[0].message.content;
 
     return {
       statusCode: 200,
@@ -57,10 +90,9 @@ exports.handler = async (event, context) => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        answer: randomResponse,
+        answer: answer,
         sources: [
-          { doc_id: 'NGO_Standards_Doc', chunk_index: 1, score: 0.95 },
-          { doc_id: 'Compliance_Guide', chunk_index: 3, score: 0.87 }
+          { doc_id: 'AI_Response', chunk_index: 1, score: 0.95 }
         ]
       })
     };
@@ -73,7 +105,10 @@ exports.handler = async (event, context) => {
         'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ error: 'Internal server error' })
+      body: JSON.stringify({ 
+        error: 'Internal server error',
+        details: error.message 
+      })
     };
   }
 };
